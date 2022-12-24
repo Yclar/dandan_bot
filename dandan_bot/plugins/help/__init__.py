@@ -1,10 +1,9 @@
 # coding=gbk
-from nonebot.adapters.onebot.v11 import MessageSegment, Event
 from nonebot import on_command
 from nonebot.rule import to_me
 
 
-help = on_command("帮助", rule=to_me(), priority=1, aliases={"help"})
+help = on_command("帮助", rule=to_me(), priority=2, aliases={"help"}, block=True)
 
 
 @help.handle()

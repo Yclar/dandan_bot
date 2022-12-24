@@ -1,17 +1,13 @@
 #coding=gbk
-import nonebot
-from nonebot.adapters.onebot.v11 import *
+from nonebot.adapters.onebot.v11 import Message
 from nonebot import on_command
 from nonebot.rule import to_me
 from nonebot.typing import T_State
 from nonebot.params import State, CommandArg
-import os
-import openpyxl
-from pathlib import Path
 from . import phigros
 
 
-song_diff = on_command("查定数", aliases={'song_diff', 'ssd'}, rule=to_me(), priority=5)
+song_diff = on_command("查定数", aliases={'song_diff', 'ssd'}, rule=to_me(), priority=5, block=True)
 
 
 @song_diff.handle()
@@ -21,16 +17,17 @@ async def first_handle_receive(args: Message = CommandArg(), state: T_State = St
         state["game_type"] = plain_text
 
 
-@song_diff.got("game_type", prompt="请问是哪个音游的定数呢？\n现在可选：\nphigros")
+@song_diff.got("game_type", prompt="请问是哪个音游的定数呢？\n现在可选：\nPhigros\nArcaea")
 async def get_song(state: T_State = State()):
     game_type = str(state["game_type"]).strip().title()
     if game_type == 'Phigros':
-        await song_diff.send('请输入歌曲名称')
+        await song_diff.finish("功能升级中")
+        #await song_diff.send('请输入歌曲名称')
     elif game_type == 'Arcaea':
-        await song_diff.finish('arcaea coming s∞n')
+        await song_diff.finish('请使用Arcaea插件（输入arc help查看帮助）')
     else:
         print(game_type)
-        await song_diff.finish("不存在这个游戏哦~")
+        await song_diff.finish("不支持或不存在这个游戏哦~")
 
 
 @song_diff.got("song")
