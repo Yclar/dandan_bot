@@ -1,16 +1,15 @@
-from nonebot.adapters import Bot, Event, Message
+from nonebot.adapters import Event, Message
 from nonebot.adapters.onebot.v11 import MessageSegment, GroupMessageEvent, MessageEvent
 from nonebot import on_command
 from nonebot.rule import to_me
-from nonebot.typing import T_State
-from nonebot.params import State, CommandArg
-import os
-import openpyxl
+from os import getcwd
+from openpyxl import load_workbook
 from pathlib import Path
 from nonebot.params import Depends
 from typing import Type
 
-personal_info = on_command("个人信息", rule=to_me(), priority=5, aliases={'personal_info', 'p_info', 'pinfo'})
+
+personal_info = on_command("个人信息", rule=to_me(), priority=5, aliases={'personal_info', 'p_info', 'pinfo'}, block=True)
 
 
 class EventChecker:
@@ -20,15 +19,14 @@ class EventChecker:
     def __call__(self, event: MessageEvent) -> bool:
         return isinstance(event, self.event_class)
 
-
 checker = EventChecker(GroupMessageEvent)
 
 
 @personal_info.handle()
-async def first_handle_receive(bot: Bot, event: Event, flag: bool = Depends(checker)):
+async def first_handle_receive(event: Event, flag: bool = Depends(checker)):
 
-    str_path = Path(os.getcwd())
-    sx = openpyxl.load_workbook(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
+    str_path = Path(getcwd())
+    sx = load_workbook(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
     sheet = sx['Sheet1']
     for x in range(2, sheet.max_row + 1):
         if sheet.cell(row=x, column=1).value == str(event.get_user_id()):

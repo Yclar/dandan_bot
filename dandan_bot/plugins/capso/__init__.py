@@ -1,18 +1,17 @@
-# coding=gbk
-import asyncio
-import os
-import random
+from asyncio import sleep
+from os import getcwd
+from openpyxl import load_workbook
 from pathlib import Path
 from typing import Type
-
-import openpyxl
+from random import randint
 from nonebot import on_command
-from nonebot.adapters import Message
-from nonebot.adapters.onebot.v11 import *
+from nonebot.adapters import Bot, Event, Message
+from nonebot.adapters.onebot.v11 import MessageEvent, GroupMessageEvent, MessageSegment
 from nonebot.params import Depends
 from nonebot.rule import to_me
 
-capso = on_command("³é½±", rule=to_me(), priority=5, aliases={'capso', 'lucky_star'})
+
+capso = on_command("æŠ½å¥–", rule=to_me(), priority=5, aliases={'capso', 'lucky_star'}, block=True)
 
 
 class EventChecker:
@@ -28,8 +27,8 @@ checker = EventChecker(GroupMessageEvent)
 
 @capso.handle()
 async def first_handle_receive(bot: Bot, event: Event, flag: bool = Depends(checker)):
-    str_path = Path(os.getcwd())
-    sx = openpyxl.load_workbook(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
+    str_path = Path(getcwd())
+    sx = load_workbook(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
     sheet = sx['Sheet1']
     for x in range(1, sheet.max_row + 1):
         if sheet.cell(row=x, column=1).value == str(event.get_user_id()):
@@ -42,89 +41,93 @@ async def first_handle_receive(bot: Bot, event: Event, flag: bool = Depends(chec
                 nz_flag = False
                 dd_flag = False
                 mmmmmmsg = ''
-                tmp = random.randint(1, 10000000)
+                tmp = randint(1, 10000000)
                 if tmp <= 1500:
-                    get = '³¬¼¶»áÔ±Ãû¶î!!!'
+                    get = 'è¶…çº§ä¼šå‘˜åé¢!!!'
                 elif tmp <= 200001:
-                    get = '60è¯è¯±Ò,µ«ÊÇ±»µ°µ°³ÔÁËÒ»°ë!'
+                    get = '60ç’‡ç’‡å¸,ä½†æ˜¯è¢«è›‹è›‹åƒäº†ä¸€åŠ!'
                     adder = 30
                 elif tmp <= 700001:
-                    get = 'ÈÃÈºÖ÷Å®×°µÄ´óÀ®°È£¨!'
+                    get = 'è®©ç¾¤ä¸»å¥³è£…çš„å¤§å–‡å­ï¼ˆ!'
                     nz_flag = True
                 elif tmp <= 1200001:
-                    get = '½øÈë»áÔ±ÖÆ²ÍÌüµÄ»ú»á£¡£¨´óÏ²'
+                    get = 'è¿›å…¥ä¼šå‘˜åˆ¶é¤å…çš„æœºä¼šï¼ï¼ˆå¤§å–œ'
                 elif tmp <= 1700001:
-                    get = 'ºÃÓÑğ¯µÄĞ¦Èİ£¡\nÁíÓĞ20è¯è¯±ÒÇëÄúÊÕÏÂ£¡'
+                    get = 'å¥½å‹é¸ çš„ç¬‘å®¹ï¼\nå¦æœ‰20ç’‡ç’‡å¸è¯·æ‚¨æ”¶ä¸‹ï¼'
                     adder = 20
                 elif tmp <= 2200001:
-                    get = 'EKÂ³±ÈµÄÅ®×°Ò»·İ£¡\nÁíÓĞ20è¯è¯±ÒÇëÄúÊÕÏÂ£¡'
+                    get = 'EKé²æ¯”çš„å¥³è£…ä¸€ä»½ï¼\nå¦æœ‰20ç’‡ç’‡å¸è¯·æ‚¨æ”¶ä¸‹ï¼'
                     adder = 20
                 elif tmp <= 3000001:
-                    get = '¥Ğ¥«¥êÊÕ²ØµÄµ°µ°»­ÏñÒ»·İ£¡£¨ÒìÍ«¿ØÏ²\n'
+                    get = 'ãƒã‚«ãƒªæ”¶è—çš„è›‹è›‹ç”»åƒä¸€ä»½ï¼ï¼ˆå¼‚ç³æ§å–œ\n'
                     dd_flag = True
                 elif tmp <= 4000001:
-                    get = 'È¥¶«¾©µÄÂÃÓÎ¾í,µ«ÊÇ¹ıÆÚÁË!'
+                    get = 'å»ä¸œäº¬çš„æ—…æ¸¸å·,ä½†æ˜¯è¿‡æœŸäº†!'
                 elif tmp <= 5000001:
-                    get = 'ÅĞ¶¨Ïß±§Õí\n¡ª¡ªµÄ¸ÅÄî°æ£¡'
+                    get = 'åˆ¤å®šçº¿æŠ±æ•\nâ€”â€”çš„æ¦‚å¿µç‰ˆï¼'
                 elif tmp <= 6000001:
-                    get = '±»ÌïËùºÆ¶ş¾ïµÄÇÀÏÈÃû¶î£¡£¨Ï²'
+                    get = 'è¢«ç”°æ‰€æµ©äºŒæ’…çš„æŠ¢å…ˆåé¢ï¼ï¼ˆå–œ'
                 elif tmp <= 6500001:
-                    get = '114514¸ö...'
+                    get = '114514ä¸ª...'
                     fflag = True
                 elif tmp <= 8000001:
-                    get = '²ÊÃÎ!'
-                    tmp = random.randint(1, 10000000)
+                    get = 'å½©æ¢¦!'
+                    tmp = randint(1, 10000000)
                     if tmp <= 5:
                         adder = 9999
                     elif tmp <= 100:
                         adder = 616
                     elif tmp <= 9000000:
-                        adder = -random.randint(5, 10)
+                        adder = -randint(5, 10)
                     else:
-                        adder = 10 * random.randint(1, 10)
+                        adder = 10 * randint(1, 10)
                     if adder > 0:
-                        mmmmmmsg = '²ÊÃÎÍÂ³öÁË' + str(adder) + '¸öè¯è¯±Ò!'
+                        mmmmmmsg = 'å½©æ¢¦åå‡ºäº†' + str(adder) + 'ä¸ªç’‡ç’‡å¸!'
                     elif adder < 0:
-                        mmmmmmsg = '²ÊÃÎ³ÔµôÁË' + str(-adder) + '¸öè¯è¯±Ò!'
+                        mmmmmmsg = 'å½©æ¢¦åƒæ‰äº†' + str(-adder) + 'ä¸ªç’‡ç’‡å¸!'
                     else:
-                        mmmmmmsg = '²ÊÃÎÕıÃ¦×ÅËãÇ®£¬Ò»¸öè¯è¯±Ò¶¼²»Ïë¸øÄã~'
+                        mmmmmmsg = 'å½©æ¢¦æ­£å¿™ç€ç®—é’±ï¼Œä¸€ä¸ªç’‡ç’‡å¸éƒ½ä¸æƒ³ç»™ä½ ~'
                 else:
-                    adder = random.randint(10, 25)
-                    get = str(adder) + '¸öè¯è¯±Ò!'
+                    adder = randint(10, 25)
+                    get = str(adder) + 'ä¸ªç’‡ç’‡å¸!'
 
                 sheet.cell(row=x, column=2).value = str(int(sheet.cell(row=x, column=2).value) + adder)
                 if int(sheet.cell(row=x, column=2).value) < 0:
                     sheet.cell(row=x, column=2).value = '0'
                 sx.save(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
                 msg: Message = MessageSegment.at(user_id=__id) + '\n'
-                msg1 = 'Äã³éµ½ÁË' + get
+                msg1 = 'ä½ æŠ½åˆ°äº†' + get
                 if flag:
                     print(1)
                     await capso.send(msg + msg1)
                 else:
                     await capso.send(msg1)
                 if fflag:
-                    await asyncio.sleep(2)
-                    await capso.finish('ÏÉ±´£¡')
+                    await sleep(2)
+                    await capso.finish('ä»™è´ï¼')
                 if dd_flag:
                     image_path: Path = str_path / 'data' / 'images' / 'dandan.png'
                     msg2 = MessageSegment.image(file=image_path)
                     await capso.finish(msg2)
                 if nz_flag:
-                    await asyncio.sleep(0.5)
+                    await sleep(0.5)
                     if flag:
                         __info = await bot.get_group_member_list(group_id=event.group_id)
                         for __user in __info:
                             if (await bot.get_group_member_info(group_id=event.group_id,user_id=__user["user_id"],no_cache=True))["role"] == 'owner':
                                 owner_id = __user["user_id"]
-                                await capso.finish(MessageSegment.at(int(owner_id)) + '¿ìµãÅ®×°~')
+                                await capso.finish(MessageSegment.at(int(owner_id)) + 'å¿«ç‚¹å¥³è£…~')
                     else:
-                        await capso.finish("µ«ÊÇÎÒÃÇÊÇË½ÁÄšG~ËãÁË°É©µ(£ş§¥ £ş)©±")
+                        await capso.finish("ä½†æ˜¯æˆ‘ä»¬æ˜¯ç§èŠæ¬¸~ç®—äº†å§â”‘(ï¿£Ğ” ï¿£)â”")
                 if mmmmmmsg != '':
-                    await asyncio.sleep(0.1)
+                    await sleep(0.1)
                     await capso.finish(mmmmmmsg)
-                await capso.finish('ÆÚ´ıÄúÏÂ´ÎÔÙÀ´~£¨¾Ï¹ª£©')
+                await capso.finish('æœŸå¾…æ‚¨ä¸‹æ¬¡å†æ¥~ï¼ˆé èº¬ï¼‰')
             else:
-                await capso.finish('ÔÙ³é½±¾ÍÒªÇ·Ç®À²~')
+                a = randint(0, 1)
+                if a == 0:
+                    await capso.finish('å†æŠ½å¥–å°±è¦æ¬ é’±å•¦~')
+                else:
+                    await capso.finish('å¤ªæƒ¨äº†ï¼Œæ‚¨è¾“å…‰å…‰äº†')
 
-    await capso.finish('ÄãÊÇË­°¡£¿ÎÒºÃÏñ²»Ì«ÈÏÊ¶ÄãµÄÑù×ÓÄØ¡­¡­ÇëÏÈ×¢²áÔÙÀ´°É~')
+    await capso.finish('ä½ æ˜¯è°å•Šï¼Ÿæˆ‘å¥½åƒä¸å¤ªè®¤è¯†ä½ çš„æ ·å­å‘¢â€¦â€¦è¯·å…ˆæ³¨å†Œå†æ¥å§~')

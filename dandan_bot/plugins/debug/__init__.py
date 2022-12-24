@@ -1,23 +1,24 @@
-import nonebot
-from nonebot.adapters.onebot.v11 import *
+from nonebot import get_driver
+from nonebot.adapters import Event
 from nonebot import on_command
 from nonebot.rule import to_me
-import os
-import openpyxl
+from os import getcwd
+from openpyxl import load_workbook
 from pathlib import Path
 
-coin_per_capso = on_command("debug->coin_per_capso", priority=2, rule=to_me())
-__user: dict[int] = nonebot.get_driver().config.debugger_user
+
+coin_per_capso = on_command("debug->coin_per_capso", priority=2, rule=to_me(), block=True)
+__user: dict[int] = get_driver().config.debugger_user
 
 
 @coin_per_capso.handle()
-async def check_and_send(bot: Bot, event: Event):
+async def check_and_send(event: Event):
     __id = event.get_user_id()
     for debugger_id in __user:
         if __id == debugger_id:
             await coin_per_capso.send('您好，debugger!')
-            str_path = Path(os.getcwd())
-            sx = openpyxl.load_workbook(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
+            str_path = Path(getcwd())
+            sx = load_workbook(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
             sheet = sx['Sheet1']
             for x in range(2, sheet.max_row + 1):
                 if sheet.cell(row=x, column=1).value == str(__id):

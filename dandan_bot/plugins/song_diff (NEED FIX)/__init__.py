@@ -1,17 +1,12 @@
-#coding=gbk
-import nonebot
-from nonebot.adapters.onebot.v11 import *
+from nonebot.adapters.onebot.v11 import Message
 from nonebot import on_command
 from nonebot.rule import to_me
 from nonebot.typing import T_State
 from nonebot.params import State, CommandArg
-import os
-import openpyxl
-from pathlib import Path
 from . import phigros
 
 
-song_diff = on_command("²é¶¨Êı", aliases={'song_diff', 'ssd'}, rule=to_me(), priority=5)
+song_diff = on_command("æŸ¥å®šæ•°", aliases={'song_diff', 'ssd'}, rule=to_me(), priority=5, block=True)
 
 
 @song_diff.handle()
@@ -21,16 +16,17 @@ async def first_handle_receive(args: Message = CommandArg(), state: T_State = St
         state["game_type"] = plain_text
 
 
-@song_diff.got("game_type", prompt="ÇëÎÊÊÇÄÄ¸öÒôÓÎµÄ¶¨ÊıÄØ£¿\nÏÖÔÚ¿ÉÑ¡£º\nphigros")
+@song_diff.got("game_type", prompt="è¯·é—®æ˜¯å“ªä¸ªéŸ³æ¸¸çš„å®šæ•°å‘¢ï¼Ÿ\nç°åœ¨å¯é€‰ï¼š\nPhigros\nArcaea")
 async def get_song(state: T_State = State()):
     game_type = str(state["game_type"]).strip().title()
     if game_type == 'Phigros':
-        await song_diff.send('ÇëÊäÈë¸èÇúÃû³Æ')
+        await song_diff.finish("åŠŸèƒ½å‡çº§ä¸­")
+        #await song_diff.send('è¯·è¾“å…¥æ­Œæ›²åç§°')
     elif game_type == 'Arcaea':
-        await song_diff.finish('arcaea coming s¡Şn')
+        await song_diff.finish('è¯·ä½¿ç”¨Arcaeaæ’ä»¶ï¼ˆè¾“å…¥arc helpæŸ¥çœ‹å¸®åŠ©ï¼‰')
     else:
         print(game_type)
-        await song_diff.finish("²»´æÔÚÕâ¸öÓÎÏ·Å¶~")
+        await song_diff.finish("ä¸æ”¯æŒæˆ–ä¸å­˜åœ¨è¿™ä¸ªæ¸¸æˆå“¦~")
 
 
 @song_diff.got("song")
@@ -40,9 +36,9 @@ async def get_level(state: T_State = State()):
     if game_type == 'Phigros':
         ret = await phigros.get(song_name)
         if ret != 'baka':
-            await song_diff.send('ÇëÊäÈë¸èÇúÄÑ¶È£¨EZ/HD/IN/AT£©')
+            await song_diff.send('è¯·è¾“å…¥æ­Œæ›²éš¾åº¦ï¼ˆEZ/HD/IN/ATï¼‰')
         else:
-            await song_diff.send('ÕâÊÇÄ³Ê×Çú×ÓµÄ±ğÃûÂğ£¿Èç¹ûÊÇµÄ»°ÇëÊäÈë"ÊÇ"£¬·ñÔò¾ÍÊäÈë±ğµÄ~')
+            await song_diff.send('è¿™æ˜¯æŸé¦–æ›²å­çš„åˆ«åå—ï¼Ÿå¦‚æœæ˜¯çš„è¯è¯·è¾“å…¥"æ˜¯"ï¼Œå¦åˆ™å°±è¾“å…¥åˆ«çš„~')
 
 
 @song_diff.got("level")
@@ -54,26 +50,26 @@ async def get_diff(state: T_State = State()):
         ret = (await phigros.get(song_name)).split('#')
         print(ret)
         if ret[0] == 'baka':
-            if level == 'ÊÇ':
-                await song_diff.send('ÊÇÄÄÊ×Çú×ÓÄØ£¿£¨ÇëÊäÈëÍêÕûÃû³Æ£©')
+            if level == 'æ˜¯':
+                await song_diff.send('æ˜¯å“ªé¦–æ›²å­å‘¢ï¼Ÿï¼ˆè¯·è¾“å…¥å®Œæ•´åç§°ï¼‰')
             else:
-                await song_diff.finish('µ°µ°¾¡Á¦ÁË£¬ÕæµÄÃ»ÓĞÕâÊ×Çú×ÓQAQ')
+                await song_diff.finish('è›‹è›‹å°½åŠ›äº†ï¼ŒçœŸçš„æ²¡æœ‰è¿™é¦–æ›²å­QAQ')
         else:
             a = []
             for i in ret:
                 if i == '@':
                     print(a)
                     if str(a[0]).title() == level:
-                        msg0 = 'ÇúÃû£º' + str(a[4]) + '\n'
-                        msg1 = 'ÄÑ¶ÈÎª' + str(a[0]) + 'Ê±£º\n'
-                        msg2 = '¶¨ÊıÎª' + str(a[1]) + '£¬'
-                        msg3 = 'ÎïÁ¿Îª' + str(a[2]) + '£¬'
-                        msg4 = '¼ÓÈë°æ±¾Îª' + str(a[3])
+                        msg0 = 'æ›²åï¼š' + str(a[4]) + '\n'
+                        msg1 = 'éš¾åº¦ä¸º' + str(a[0]) + 'æ—¶ï¼š\n'
+                        msg2 = 'å®šæ•°ä¸º' + str(a[1]) + 'ï¼Œ'
+                        msg3 = 'ç‰©é‡ä¸º' + str(a[2]) + 'ï¼Œ'
+                        msg4 = 'åŠ å…¥ç‰ˆæœ¬ä¸º' + str(a[3])
                         await song_diff.finish(msg0 + msg1 + msg2 + msg3 + msg4)
                     a = []
                 else:
                     a.append(i)
-            await song_diff.finish('µ°µ°¾¡Á¦ÁË£¬ÕæµÄÃ»ÓĞÕâ¸öÄÑ¶ÈQAQ')
+            await song_diff.finish('è›‹è›‹å°½åŠ›äº†ï¼ŒçœŸçš„æ²¡æœ‰è¿™ä¸ªéš¾åº¦QAQ')
 
 
 @song_diff.got("name")
@@ -84,6 +80,6 @@ async def get_name(state: T_State = State()):
     if game_type == 'Phigros':
         ret = await phigros.alias_(alias, name)
         if ret == 'baka':
-            await song_diff.finish('µ°µ°¾¡Á¦ÁË£¬ÕæµÄÃ»ÓĞÕâÊ×Çú×ÓQAQ')
+            await song_diff.finish('è›‹è›‹å°½åŠ›äº†ï¼ŒçœŸçš„æ²¡æœ‰è¿™é¦–æ›²å­QAQ')
         else:
-            await song_diff.finish('±ğÃûÌí¼Ó³É¹¦£¡')
+            await song_diff.finish('åˆ«åæ·»åŠ æˆåŠŸï¼')
