@@ -1,7 +1,8 @@
 from random import choice
 from nonebot import on_regex
+from nonebot.typing import T_State
 from nonebot.matcher import Matcher
-from nonebot.params import Depends, RegexMatched
+from nonebot.params import Depends, State, RegexMatched
 from nonebot.rule import to_me
 
 
@@ -166,29 +167,34 @@ kfc = [
     ]
 
 
-crazy_cn = on_regex(pattern=r"^疯狂星期\S\S*", priority=15, rule=to_me(), block=True)
+crazy = on_regex(pattern=r"^疯狂星期\S\S*", priority=15, rule=to_me(), block=True)
 crazy_jp = on_regex(pattern=r"^狂乱\S曜日\S*", priority=15, rule=to_me(), block=True)
 crazy_en = on_regex(pattern=r"^[C|c][R|r][A|a][Z|z][Y|y]\s*\S*", priority=15, rule=to_me(), block=True)
 
 
-def get_weekday_cn(arg: str = RegexMatched()):
-    return arg[4].replace("天", "日")
-def get_weekday_jp(arg: str = RegexMatched()):
-    return arg[2]
-def get_weekday_en(arg: str = RegexMatched()):
-    return arg[5:].strip().title()
+def get_weekday_cn(arg: str = RegexMatched(), state: T_State = State()):
+    weekday = arg[4].replace("天", "日")
+    return {**state, "weekday": weekday}
+def get_weekday_jp(arg: str = RegexMatched(), state: T_State = State()):
+    weekday = arg[2]
+    return {**state, "weekday": weekday} 
+def get_weekday_en(arg: str = RegexMatched(), state: T_State = State()):
+    weekday = arg[5:].strip().title()
+    print(weekday)
+    return {**state, "weekday": weekday}
 
 
-@crazy_cn.handle()
-async def _(matcher: Matcher, weekday: str = Depends(get_weekday_cn)):
+@crazy.handle()
+async def _(matcher: Matcher, state: T_State = Depends(get_weekday_cn)):
+    weekday = state["weekday"]
     await matcher.finish(rndKfc(weekday))
-
 @crazy_jp.handle()
-async def _(matcher: Matcher, weekday: str = Depends(get_weekday_jp)):
+async def _(matcher: Matcher, state: T_State = Depends(get_weekday_jp)):
+    weekday = state["weekday"]
     await matcher.finish(rndKfc(weekday))
-
 @crazy_en.handle()
-async def _(matcher: Matcher, weekday: str = Depends(get_weekday_en)):
+async def _(matcher: Matcher, state: T_State = Depends(get_weekday_en)):
+    weekday = state["weekday"]
     await matcher.finish(rndKfc(weekday))
 
 
@@ -206,10 +212,8 @@ def rndKfc(day: str):
         return "给个准确时间，OK?"
     tmp = int(len(tb) / 7)
     idx = int(tb.index(day) / tmp) * tmp
-    ret = choice(kfc).replace("木曜日", tb[idx] + "曜日") \
+    return choice(kfc).replace("木曜日", tb[idx] + "曜日") \
                              .replace("Thursday", tb[idx+1]) \
                              .replace("THURSDAY", tb[idx+1].upper()) \
                              .replace("星期四", "星期" + tb[idx+2]) \
                              .replace("周四", "周" + tb[idx+2])
-    print(ret)
-    return ret

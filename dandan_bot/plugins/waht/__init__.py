@@ -1,3 +1,4 @@
+#coding=gbk
 from nonebot.rule import to_me
 from nonebot import on_message, on_request
 from nonebot.adapters import Event, Bot
@@ -11,11 +12,11 @@ auto_accept = on_request(priority=1)
 
 @waht.handle()
 async def send_waht(bot: Bot):
-    await waht.finish('è¿™æ˜¯ä»€ä¹ˆå•Šï¼Ÿæ˜¯ä»€ä¹ˆæš—å·å—ï¼Ÿæˆ‘ä¸æ‡‚æ¬¸~')
+    await waht.finish('ÕâÊÇÊ²Ã´°¡£¿ÊÇÊ²Ã´°µºÅÂğ£¿ÎÒ²»¶®šG~')
 
 @wahttttt.handle()
 async def send_wahttttt():
-    await wahttttt.finish('ä½ è¿˜ä¸æ˜¯è›‹è›‹çš„å¥½å‹å“¦~ (éªŒè¯é—®é¢˜ç­”æ¡ˆä¸º whvwlib )')
+    await wahttttt.finish('Äã»¹²»ÊÇµ°µ°µÄºÃÓÑÅ¶~ (ÑéÖ¤ÎÊÌâ´ğ°¸Îª whvwlib )')
 '''
 @auto_accept.handle()
 async def accept(event: Event, bot: Bot):

@@ -1,12 +1,12 @@
 from nonebot.adapters import Event, Bot
 from nonebot import on_notice, on_command
 from nonebot.adapters.onebot.v11 import MessageSegment, Message
-from os import getcwd
+from os import getcwd, sep
 from openpyxl import load_workbook
 from pathlib import Path
-from nonebot.params import CommandArg, ArgPlainText
+from nonebot.params import CommandArg, State
 from nonebot.rule import to_me
-from nonebot.matcher import Matcher
+from nonebot.typing import T_State
 
 
 vvelcome = on_notice(priority=2)
@@ -32,24 +32,24 @@ async def send_vvelcome(bot: Bot, event: Event):
 
 
 @set_welcome.handle()
-async def first_handle_receive(bot: Bot, event: Event, matcher: Matcher, args: Message = CommandArg()):
+async def first_handle_receive(bot: Bot, event: Event, state: T_State = State(), args: Message = CommandArg()):
     user_role = (await bot.get_group_member_info(group_id=event.group_id, user_id=event.user_id, no_cache=True))["role"]
     if user_role == 'owner' or user_role == 'admin':
         plain_text = args.extract_plain_text()
         if plain_text:
-            matcher.set_arg("type", args)
+            state["_data_"] = plain_text
     else:
         await set_welcome.finish("您不是群主或者管理员哦~")
 
 
 @set_welcome.got("_data_", prompt="请问有什么内容？")
-async def data_input(event: Event, data: str = ArgPlainText("_data_")):
+async def data_input(event: Event, state: T_State = State()):
     str_path = Path(getcwd())
     sx = load_workbook(str_path / 'dandan_bot' / 'libraries' / 'group.xlsx')
     sheet = sx['Sheet1']
     for x in range(2, sheet.max_row + 1):
         if sheet.cell(row=x, column=1).value == str(event.group_id):
-            sheet.cell(row=x, column=2).value = data
+            sheet.cell(row=x, column=2).value = state["_data_"]
             break
     sx.save(str_path / 'dandan_bot' / 'libraries' / 'group.xlsx')
     await set_welcome.finish("欢迎词设置成功！")

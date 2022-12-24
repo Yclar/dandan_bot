@@ -1,3 +1,4 @@
+# coding=gbk
 from asyncio import sleep
 from os import getcwd
 from openpyxl import load_workbook
@@ -11,7 +12,7 @@ from nonebot.params import Depends
 from nonebot.rule import to_me
 
 
-capso = on_command("æŠ½å¥–", rule=to_me(), priority=5, aliases={'capso', 'lucky_star'}, block=True)
+capso = on_command("³é½±", rule=to_me(), priority=5, aliases={'capso', 'lucky_star'}, block=True)
 
 
 class EventChecker:
@@ -43,35 +44,35 @@ async def first_handle_receive(bot: Bot, event: Event, flag: bool = Depends(chec
                 mmmmmmsg = ''
                 tmp = randint(1, 10000000)
                 if tmp <= 1500:
-                    get = 'è¶…çº§ä¼šå‘˜åé¢!!!'
+                    get = '³¬¼¶»áÔ±Ãû¶î!!!'
                 elif tmp <= 200001:
-                    get = '60ç’‡ç’‡å¸,ä½†æ˜¯è¢«è›‹è›‹åƒäº†ä¸€åŠ!'
+                    get = '60è¯è¯±Ò,µ«ÊÇ±»µ°µ°³ÔÁËÒ»°ë!'
                     adder = 30
                 elif tmp <= 700001:
-                    get = 'è®©ç¾¤ä¸»å¥³è£…çš„å¤§å–‡å­ï¼ˆ!'
+                    get = 'ÈÃÈºÖ÷Å®×°µÄ´óÀ®°È£¨!'
                     nz_flag = True
                 elif tmp <= 1200001:
-                    get = 'è¿›å…¥ä¼šå‘˜åˆ¶é¤å…çš„æœºä¼šï¼ï¼ˆå¤§å–œ'
+                    get = '½øÈë»áÔ±ÖÆ²ÍÌüµÄ»ú»á£¡£¨´óÏ²'
                 elif tmp <= 1700001:
-                    get = 'å¥½å‹é¸ çš„ç¬‘å®¹ï¼\nå¦æœ‰20ç’‡ç’‡å¸è¯·æ‚¨æ”¶ä¸‹ï¼'
+                    get = 'ºÃÓÑğ¯µÄĞ¦Èİ£¡\nÁíÓĞ20è¯è¯±ÒÇëÄúÊÕÏÂ£¡'
                     adder = 20
                 elif tmp <= 2200001:
-                    get = 'EKé²æ¯”çš„å¥³è£…ä¸€ä»½ï¼\nå¦æœ‰20ç’‡ç’‡å¸è¯·æ‚¨æ”¶ä¸‹ï¼'
+                    get = 'EKÂ³±ÈµÄÅ®×°Ò»·İ£¡\nÁíÓĞ20è¯è¯±ÒÇëÄúÊÕÏÂ£¡'
                     adder = 20
                 elif tmp <= 3000001:
-                    get = 'ãƒã‚«ãƒªæ”¶è—çš„è›‹è›‹ç”»åƒä¸€ä»½ï¼ï¼ˆå¼‚ç³æ§å–œ\n'
+                    get = '¥Ğ¥«¥êÊÕ²ØµÄµ°µ°»­ÏñÒ»·İ£¡£¨ÒìÍ«¿ØÏ²\n'
                     dd_flag = True
                 elif tmp <= 4000001:
-                    get = 'å»ä¸œäº¬çš„æ—…æ¸¸å·,ä½†æ˜¯è¿‡æœŸäº†!'
+                    get = 'È¥¶«¾©µÄÂÃÓÎ¾í,µ«ÊÇ¹ıÆÚÁË!'
                 elif tmp <= 5000001:
-                    get = 'åˆ¤å®šçº¿æŠ±æ•\nâ€”â€”çš„æ¦‚å¿µç‰ˆï¼'
+                    get = 'ÅĞ¶¨Ïß±§Õí\n¡ª¡ªµÄ¸ÅÄî°æ£¡'
                 elif tmp <= 6000001:
-                    get = 'è¢«ç”°æ‰€æµ©äºŒæ’…çš„æŠ¢å…ˆåé¢ï¼ï¼ˆå–œ'
+                    get = '±»ÌïËùºÆ¶ş¾ïµÄÇÀÏÈÃû¶î£¡£¨Ï²'
                 elif tmp <= 6500001:
-                    get = '114514ä¸ª...'
+                    get = '114514¸ö...'
                     fflag = True
                 elif tmp <= 8000001:
-                    get = 'å½©æ¢¦!'
+                    get = '²ÊÃÎ!'
                     tmp = randint(1, 10000000)
                     if tmp <= 5:
                         adder = 9999
@@ -82,21 +83,21 @@ async def first_handle_receive(bot: Bot, event: Event, flag: bool = Depends(chec
                     else:
                         adder = 10 * randint(1, 10)
                     if adder > 0:
-                        mmmmmmsg = 'å½©æ¢¦åå‡ºäº†' + str(adder) + 'ä¸ªç’‡ç’‡å¸!'
+                        mmmmmmsg = '²ÊÃÎÍÂ³öÁË' + str(adder) + '¸öè¯è¯±Ò!'
                     elif adder < 0:
-                        mmmmmmsg = 'å½©æ¢¦åƒæ‰äº†' + str(-adder) + 'ä¸ªç’‡ç’‡å¸!'
+                        mmmmmmsg = '²ÊÃÎ³ÔµôÁË' + str(-adder) + '¸öè¯è¯±Ò!'
                     else:
-                        mmmmmmsg = 'å½©æ¢¦æ­£å¿™ç€ç®—é’±ï¼Œä¸€ä¸ªç’‡ç’‡å¸éƒ½ä¸æƒ³ç»™ä½ ~'
+                        mmmmmmsg = '²ÊÃÎÕıÃ¦×ÅËãÇ®£¬Ò»¸öè¯è¯±Ò¶¼²»Ïë¸øÄã~'
                 else:
                     adder = randint(10, 25)
-                    get = str(adder) + 'ä¸ªç’‡ç’‡å¸!'
+                    get = str(adder) + '¸öè¯è¯±Ò!'
 
                 sheet.cell(row=x, column=2).value = str(int(sheet.cell(row=x, column=2).value) + adder)
                 if int(sheet.cell(row=x, column=2).value) < 0:
                     sheet.cell(row=x, column=2).value = '0'
                 sx.save(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
                 msg: Message = MessageSegment.at(user_id=__id) + '\n'
-                msg1 = 'ä½ æŠ½åˆ°äº†' + get
+                msg1 = 'Äã³éµ½ÁË' + get
                 if flag:
                     print(1)
                     await capso.send(msg + msg1)
@@ -104,7 +105,7 @@ async def first_handle_receive(bot: Bot, event: Event, flag: bool = Depends(chec
                     await capso.send(msg1)
                 if fflag:
                     await sleep(2)
-                    await capso.finish('ä»™è´ï¼')
+                    await capso.finish('ÏÉ±´£¡')
                 if dd_flag:
                     image_path: Path = str_path / 'data' / 'images' / 'dandan.png'
                     msg2 = MessageSegment.image(file=image_path)
@@ -116,18 +117,18 @@ async def first_handle_receive(bot: Bot, event: Event, flag: bool = Depends(chec
                         for __user in __info:
                             if (await bot.get_group_member_info(group_id=event.group_id,user_id=__user["user_id"],no_cache=True))["role"] == 'owner':
                                 owner_id = __user["user_id"]
-                                await capso.finish(MessageSegment.at(int(owner_id)) + 'å¿«ç‚¹å¥³è£…~')
+                                await capso.finish(MessageSegment.at(int(owner_id)) + '¿ìµãÅ®×°~')
                     else:
-                        await capso.finish("ä½†æ˜¯æˆ‘ä»¬æ˜¯ç§èŠæ¬¸~ç®—äº†å§â”‘(ï¿£Ğ” ï¿£)â”")
+                        await capso.finish("µ«ÊÇÎÒÃÇÊÇË½ÁÄšG~ËãÁË°É©µ(£ş§¥ £ş)©±")
                 if mmmmmmsg != '':
                     await sleep(0.1)
                     await capso.finish(mmmmmmsg)
-                await capso.finish('æœŸå¾…æ‚¨ä¸‹æ¬¡å†æ¥~ï¼ˆé èº¬ï¼‰')
+                await capso.finish('ÆÚ´ıÄúÏÂ´ÎÔÙÀ´~£¨¾Ï¹ª£©')
             else:
                 a = randint(0, 1)
                 if a == 0:
-                    await capso.finish('å†æŠ½å¥–å°±è¦æ¬ é’±å•¦~')
+                    await capso.finish('ÔÙ³é½±¾ÍÒªÇ·Ç®À²~')
                 else:
-                    await capso.finish('å¤ªæƒ¨äº†ï¼Œæ‚¨è¾“å…‰å…‰äº†')
+                    await capso.finish('Ì«²ÒÁË£¬ÄúÊä¹â¹âÁË')
 
-    await capso.finish('ä½ æ˜¯è°å•Šï¼Ÿæˆ‘å¥½åƒä¸å¤ªè®¤è¯†ä½ çš„æ ·å­å‘¢â€¦â€¦è¯·å…ˆæ³¨å†Œå†æ¥å§~')
+    await capso.finish('ÄãÊÇË­°¡£¿ÎÒºÃÏñ²»Ì«ÈÏÊ¶ÄãµÄÑù×ÓÄØ¡­¡­ÇëÏÈ×¢²áÔÙÀ´°É~')

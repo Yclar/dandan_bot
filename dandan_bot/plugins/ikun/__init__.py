@@ -1,10 +1,11 @@
+#coding=gbk
 from nonebot import on_command
 from nonebot.rule import to_me
 
 
-ikun = on_command("é¸¡", rule=to_me(), priority=5, aliases={"åªå› ", "é…¯é“Ÿ", "æ¿€", "é“Œ", "é’›", "é•"}, block=True)
+help = on_command("¼¦", rule=to_me(), priority=5, aliases={"Ö»Òò","õ¥î÷","¼¤","îê","îÑ","Ã¾"}, block=True)
 
 
-@ikun.handle()
-async def send_niganma():
-    await ikun.finish('ä½ å¹²å˜›ï½ï½ï½å“ˆå“ˆï½å“å‘¦ï½ï½')
+@help.handle()
+async def send_help():
+    await help.finish('Äã¸ÉÂï¡«¡«¡«¹ş¹ş¡«°¥ßÏ¡«¡«')
