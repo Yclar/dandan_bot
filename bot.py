@@ -3,7 +3,6 @@
 
 import nonebot
 from nonebot.adapters.onebot.v11 import Adapter as ONEBOT_V11Adapter
-from nonebot.adapters.qqguild import Adapter as QQ_频道Adapter
 
 # Custom your logger
 # 

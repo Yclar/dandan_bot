@@ -1,16 +1,14 @@
-# coding=gbk
-from nonebot.adapters.onebot.v11 import *
+from nonebot.adapters.onebot.v11 import MessageEvent, GroupMessageEvent, MessageSegment
+from nonebot.adapters import Bot, Event
 from nonebot import on_command
 from nonebot.rule import to_me
 from nonebot.params import Depends
 from typing import Type
-import random
-import os
-import openpyxl
+from random import choice
+from os import getcwd
+from openpyxl import load_workbook
 from pathlib import Path
 from datetime import datetime
-
-from pyparsing import col
 
 
 class EventChecker:
@@ -20,17 +18,17 @@ class EventChecker:
     def __call__(self, event: MessageEvent) -> bool:
         return isinstance(event, self.event_class)
 
-
 checker = EventChecker(GroupMessageEvent)
 
-waifu = on_command('ÌùÌù', aliases={'³éÀÏÆÅ', 'waifu'}, priority=5, rule=to_me())
+
+waifu = on_command('è´´è´´', aliases={'æŠ½è€å©†', 'waifu'}, priority=5, rule=to_me(), block=True)
 
 
 @waifu.handle()
 async def check_and_send(bot: Bot, event: Event, flag: bool = Depends(checker)):
     if flag:
-        str_path = Path(os.getcwd())
-        sx = openpyxl.load_workbook(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
+        str_path = Path(getcwd())
+        sx = load_workbook(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
         sheet_info = sx['Sheet1']
         dt = str(datetime.today().date())
         id = -1
@@ -40,12 +38,12 @@ async def check_and_send(bot: Bot, event: Event, flag: bool = Depends(checker)):
                 break
         if id == -1:
             sx.save(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
-            await waifu.finish("šG£¿¦²(¤Ã ¡ã§¥ ¡ã;)¤ÃÕâÃûµ¥ÉÏÃ»ÓĞÄãµÄÃû×Ö£¡×¢²áÍêÔÙÀ´°É~")
+            await waifu.finish("æ¬¸ï¼ŸÎ£(ã£ Â°Ğ” Â°;)ã£è¿™åå•ä¸Šæ²¡æœ‰ä½ çš„åå­—ï¼æ³¨å†Œå®Œå†æ¥å§~")
 
         all_waifu = await bot.get_group_member_list(group_id=event.group_id, type='all')
-        your_waifu = random.choice(all_waifu)
+        your_waifu = choice(all_waifu)
         while your_waifu['user_id'] == event.user_id or your_waifu['user_id'] == event.self_id:
-            your_waifu = random.choice(all_waifu)
+            your_waifu = choice(all_waifu)
 
         sheet_waifu = sx['Sheet2']
         f = 1
@@ -78,11 +76,10 @@ async def check_and_send(bot: Bot, event: Event, flag: bool = Depends(checker)):
         userid = str(your_waifu['user_id'])
         avatar_url = 'http://q1.qlogo.cn/g?b=qq&nk=' + userid + '&s=3'
         msg0 = MessageSegment.at(event.user_id)
-        msg1 = '\n½ñÌìÄãÇ×°®µÄÈºÓÑÊÇ\n'
+        msg1 = '\nä»Šå¤©ä½ äº²çˆ±çš„ç¾¤å‹æ˜¯\n'
         msg2 = MessageSegment.image(file=avatar_url)
-        msg3 = '¡¾' + nickname + '¡¿(' + userid + ')ßÕ£¡'
+        msg3 = 'ã€' + nickname + 'ã€‘(' + userid + ')å“’ï¼'
         sx.save(str_path / 'dandan_bot' / 'libraries' / 'user.xlsx')
         await waifu.finish(msg0 + msg1 + msg2 + msg3)
-
     else:
-        await waifu.finish("µ«ÊÇÎÒÃÇÊÇË½ÁÄšG~ËãÁË°É©µ(£ş§¥ £ş)©±")
+        await waifu.finish("ä½†æ˜¯æˆ‘ä»¬æ˜¯ç§èŠæ¬¸~ç®—äº†å§â”‘(ï¿£Ğ” ï¿£)â”")
