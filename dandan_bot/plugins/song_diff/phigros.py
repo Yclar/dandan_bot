@@ -1,42 +1,38 @@
 # coding=gbk
-import nonebot
-from nonebot.adapters.onebot.v11 import *
-from nonebot import on_command
-from nonebot.rule import to_me
-from nonebot.typing import T_State
-from nonebot.params import State, CommandArg
-import os
-import openpyxl
+from os import getcwd
+from openpyxl import load_workbook
 from pathlib import Path
 from typing import Optional
 
 
 async def get(song_name: str) -> Optional[str]:
-    str_path = Path(os.getcwd())
-    sx = openpyxl.load_workbook(str_path / 'dandan_bot' / 'libraries' / 'song_diff.xlsx')
+    str_path = Path(getcwd())
+    sx = load_workbook(str_path / 'dandan_bot' / 'libraries' / 'song_diff.xlsx')
     phi = sx['phi']
-    ret = ''
+    ret = []
+    cnt = -1
     for x in range(2, phi.max_row + 1):
         f = 0
         alias = str(phi.cell(row=x, column=9).value).split()
         for i in alias:
             if str(i).title() == song_name.title():
                 f = 1
-        if str(phi.cell(row=x, column=5).value).title() == song_name.title() or f:
+        if (str(phi.cell(row=x, column=5).value).title().strip() == song_name.title().strip()) or f:
+            cnt = cnt + 1
             __lv = str(phi.cell(row=x, column=6).value)
             __diff = str(phi.cell(row=x, column=7).value)
             __n = str(phi.cell(row=x, column=8).value)
             __ver = str(phi.cell(row=x, column=4).value)
             __name = str(phi.cell(row=x, column=5).value)
-            ret += __lv + '#' + __diff + '#' + __n + '#' + __ver + '#' + __name + '#@#'
-    if ret == '':
-        return 'baka'
-    return ret
+            ret.append('')
+            ret[cnt] += __lv + '#' + __diff + '#' + __n + '#' + __ver + '#' + __name + '#@#'
+            print(ret)
+    return 'baka'
 
 
 async def alias_(alias: str, name: str) -> Optional[str]:
-    str_path = Path(os.getcwd())
-    sx = openpyxl.load_workbook(str_path / 'dandan_bot' / 'libraries' / 'song_diff.xlsx')
+    str_path = Path(getcwd())
+    sx = load_workbook(str_path / 'dandan_bot' / 'libraries' / 'song_diff.xlsx')
     phi = sx['phi']
     ret = 'baka'
     for x in range(2, phi.max_row + 1):
