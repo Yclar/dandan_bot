@@ -1,0 +1,11 @@
+#coding=gbk
+from nonebot import on_command
+from nonebot.rule import to_me
+
+
+help = on_command("¼¦", rule=to_me(), priority=5, aliases={"Ö»Òò","õ¥î÷","¼¤","îê","îÑ","Ã¾"}, block=True)
+
+
+@help.handle()
+async def send_help():
+    await help.finish('Äã¸ÉÂï¡«¡«¡«¹þ¹þ¡«°¥ßÏ¡«¡«')
